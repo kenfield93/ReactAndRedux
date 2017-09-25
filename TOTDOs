@@ -1,0 +1,3 @@
+Migrate from React's core PropTypes to prop-types library (react 1.5.5 seperated them)
+ https://www.npmjs.com/package/prop-types
+ https://facebook.github.io/react/docs/typechecking-with-proptypes.html
