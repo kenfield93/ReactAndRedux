@@ -7,7 +7,7 @@ import AppTemplate from './components/AppTemplate';
 import HomePage from './components/home/HomePage';
 import AboutPage from './components/about/AboutPage';
 import CoursesManager from './components/course/CoursesManager';
-import CourseManager from './components/course/CourseManager';
+import CourseManager from './components/course/CourseManager'; // eslint-disable-line import/no-named-as-default
 
  /*Always load AppTemplate since its on / path, then the specific comonent
    will get passed to it as it's children, depending on what path we're on

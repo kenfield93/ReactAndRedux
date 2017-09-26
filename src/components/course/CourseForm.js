@@ -6,8 +6,7 @@ import TextInput from '../common/TextInput';
 import SelectInput from '../common/SelectInput';
 
 const CourseForm = ({course, allAuthors, isSaving, onSave, onChange, errors}) => {
-    console.log("isSaving");
-    console.log(isSaving);
+
     return(
         <form>
             <h1>Manage Course</h1>

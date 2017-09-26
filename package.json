@@ -25,7 +25,7 @@
     "lint": "node_modules/.bin/esw webpack.config.* src tools",
     "lint:watchComment": "lint:watch tells it to actual watch files. lets us pass watch flag to es lint watch",
     "lint:watch": "npm run lint -- --watch",
-    "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
+    "test": "mocha --reporter spec tools/testSetup.js \"src/**/*.test.js\"",
     "test:watch": "npm run test -- --watch"
 
   },

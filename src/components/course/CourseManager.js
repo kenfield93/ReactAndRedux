@@ -8,7 +8,7 @@ import CourseForm from '../course/CourseForm';
 import * as authorActions from '../../actions/authorActions';
 import toastr from 'toastr';
 
-class CourseManager extends React.Component{
+export class CourseManager extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -33,15 +33,39 @@ class CourseManager extends React.Component{
             this.setState({course: Object.assign({}, nextProps.course)});
         }
     }
+
+    //front end validation. we also have backend where toastr prints that corresponding error message
+    //Note: i have the backend and front end verification a little different to show different messages
+    isCourseFormInputValid(){
+        let isValid = true;
+        let errors = {};
+        if( !this.state.course.title || this.state.course.title.length < 4 ){
+            errors.title = "Title must be at least 4 characters";
+            isValid = false;
+        }
+
+        if(!isValid)
+            this.setState({errors});
+
+        return isValid;
+    }
     onSaveCourse(event){
         event.preventDefault();
+
+        if(! this.isCourseFormInputValid())
+            return;
+
         this.setState({isSaving: true});
         this.props.actions.saveCourse(this.state.course)
-            .then(()=>{
+            .then((result)=>{
                 this.setState({isSaving: false});
                 toastr.success('Course Saved');
                 this.redirect();
-            });
+            }).catch(err => {
+                //failure action dispatched automatically but can add aditinal failure handeling here
+                toastr.error(`Course Failed To Save: ${err}`);
+                this.setState({isSaving:false});
+        });
 
     }
     redirect(){
@@ -98,7 +122,7 @@ CourseManager.propTypes = {
 // look into selectors or modifying reducers
 function mapStateToProps(state, ownProps){
 
-    let course = {id:'', watchHref: ' ', title: ' ', authorId: ' ', category: ' ', length: ' '};
+    let course = {id:'', watchHref: ' ', title: '', authorId: ' ', category: ' ', length: ' '};
     const courseId = ownProps.params.id;
     //generally probably not a good idea to set state from props, but proably fine if its something from redux put onto
     // props in mapStateToProps
@@ -112,7 +136,7 @@ function mapStateToProps(state, ownProps){
         authors: state.authors
     };
 }
-
+//TODO bind and call loadCourses in react class ( probably componentWillMount) like in CoursesManager
 function mapDispatchToProps(dispatch, ownProps){
 
 

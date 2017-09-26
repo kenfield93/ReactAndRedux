@@ -20,6 +20,7 @@ export default function courseReducer(state = initState.courses, action){
 
 function callReducers(state, action, stateWasHandledByThisCourseReducer){
     let newState;
+
     switch(action.type){
         case types.CREATE_COURSE_SUCCESS:
             return state.concat(Object.assign({}, action.course));

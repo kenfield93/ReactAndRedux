@@ -8,13 +8,18 @@ export function createCourseSuccess(course){
 export function saveCourseSuccess(course){
     return {type: types.SAVE_COURSE_SUCCESS, course};
 }
+export function saveCourseFailure(err){
+    return {type: types.SAVE_COURSE_FAILURE, err};
+}
 export function loadCoursesSuccess(courses){
     return { type: types.LOAD_COURSES_SUCCESS, courses};
 }
-export function loadCoursesError(err){
+export function loadCoursesFailure(err){
     return { type: types.LOAD_COURSES_FAILURE, err};
 }
-
+export function updateCourseSuccess(course){
+    return {type: types.UPDATE_COURSE_SUCCESS, course};
+}
 /* this func is a thunk
    the thunk middleware takes this when called w/ dispatch and calest he function, then passes dispatch to the returned function
    rather than just passing the action as the argument like a vanilla dispatch(action) signature
@@ -25,7 +30,9 @@ export function loadCourses() {
         return courseAPI.getAllCourses()
             .then(courses =>{
                dispatch(loadCoursesSuccess(courses));
-            }, err => { throw(err);
+            }, err => {
+                dispatch(loadCoursesFailure(err));
+                return Promise.reject(err);
             });
     };
 }
@@ -39,7 +46,8 @@ export function saveCourse(course, getState){
                 course.id ?  dispatch(saveCourseSuccess(savedCourse)) :
                             dispatch(createCourseSuccess(savedCourse));
             }, err => {
-                throw(err);
+                dispatch(saveCourseFailure(err));
+                return Promise.reject(err);
             });
     };
 }
